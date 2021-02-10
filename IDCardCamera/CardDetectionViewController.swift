@@ -13,7 +13,10 @@ import Vision
 /// View controller used to run a camera session that collects an image of an card with a given aspect ratio and returns an image with corrected perspective
 /// - Since: 1.0.0
 @objc public class CardDetectionViewController: BaseCardDetectionViewController {
-    
+    public var navigationTitle: String?
+    public var navigationPrompt: String?
+    public var isNavigationRightBarButtonItemHidden = false
+
     /// Card detection delegate
     /// - Since: 1.0.0
     @objc public weak var delegate: CardDetectionViewControllerDelegate?
@@ -85,5 +88,12 @@ import Vision
         super.viewDidLoad()
         self.sessionHandler.torchSettings = self.settings
         self.sessionHandler.cardDetectionSettings = self.settings
+
+        navigationBar.topItem?.title = navigationTitle
+        navigationBar.topItem?.prompt = navigationPrompt
+        if isNavigationRightBarButtonItemHidden, let item = navigationBar.items?.first {
+            item.rightBarButtonItem = nil
+            navigationBar.setItems([item], animated: false)
+        }
     }
 }
